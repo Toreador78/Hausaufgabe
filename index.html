@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="enclosure">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hausaufgabe</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
     <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -14,12 +13,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-4 content">
+        <div class="col-md-4 content" ng-controller="EnclosureController as ctrl">
             <h3>Enclosure</h3>
             <form>
                 <div class="form-group">
                     <label for="width">Width:</label>
-                    <input class="form-control" type="text" id="width" readonly style="border:0; color:#222222;">
+                    <input type="text" id="width" readonly style="border:0; color:#222222;">
                     <div id="slider-range"></div>
                 </div>
                 <div class="form-group">
@@ -33,11 +32,9 @@
                 </div>
                 <div class="form-group">
                     <label for="color">Color:</label>
-                    <select id="color" class="form-control">
-                        <option value="null">- Please select</option>
-                        <option value="green">Green</option>
-                        <option value="red">Red</option>
-                        <option value="yellow">Yellow</option>
+                    <select id="color" class="form-control" ng-model="selectedColor" ng-change="colorChange()">
+                        <option value="0000">- Please select</option>
+                        <option ng-repeat="(key,value) in ctrl.colors" value="{{key}}">{{value}}</option>
                     </select>
                 </div>
             </form>
@@ -45,29 +42,16 @@
         <div class="col-md-4"></div>
     </div>
 </div>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Angular -->
+<script src="bower_components/angular/angular.min.js"></script>
 
 <script src="js/jquery-ui.min.js"></script>
+<script src="js/main.js"></script>
 
-<script>
-    $(function () {
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 2000,
-            values: [75, 300],
-            slide: function (event, ui) {
-                $("#width").val(ui.values[0] + " - " + ui.values[1]);
-            }
-        });
-        $("#width").val($("#slider-range").slider("values", 0) +
-            " - " + $("#slider-range").slider("values", 1));
-    });
-</script>
 </body>
 </html>
