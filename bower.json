@@ -1,0 +1,23 @@
+{
+  "name": "hausaufgabe",
+  "homepage": "https://github.com/Toreador78/Hausaufgabe",
+  "authors": [
+    "Oliver Osterbrink <oliver.osterbrink@googlemail.com>"
+  ],
+  "description": "kleine Hausaufgabe",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.6.1",
+    "jquery": "^3.1.1"
+  }
+}
