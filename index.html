@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-4 content" ng-controller="EnclosureController as ctrl">
+        <div class="col-md-4 content">
             <h3>Enclosure</h3>
             <form>
                 <div class="form-group">
@@ -30,13 +30,20 @@
                         <option value="test3">Test3</option>
                     </select>
                 </div>
+
                 <div class="form-group">
-                    <label for="color">Color:</label>
-                    <select id="color" class="form-control" ng-model="selectedColor" ng-change="colorChange()">
-                        <option value="0000">- Please select</option>
-                        <option ng-repeat="(key,value) in ctrl.colors" value="{{key}}">{{value}}</option>
-                    </select>
+                    <div ng-controller="ColorController">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="color" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                - Please select <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li ng-repeat="(key,value) in colors" value="{{key}}"><a ng-click="coloritemselected(key)">{{value}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
             </form>
         </div>
         <div class="col-md-4"></div>

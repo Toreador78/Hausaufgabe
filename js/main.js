@@ -20,19 +20,39 @@
 
     app.controller('EnclosureController', ['$scope', function($scope){
         $scope.selectedColor = "0000";
-        this.colors = colors;
+
+        var colors = {
+            "789": "lyellow",
+            "1234": "lgreen",
+            "5678": "lred"
+        };
+
         //TODO: Funktioniert so noch nicht.. erst lokales Objekt benutzen
-        //$.getJSON('eec-export.json', function (data) {
-        //    this.colors = data.colors;
-        //})
+        $.getJSON('eec-export.json', function (data) {
+            colors = data.colors;
+            console.log(data.colors);
+            console.log(colors);
+        });
         $scope.colorChange = function(){
             console.log($scope.selectedColor);
         };
     }]);
 
-    var colors = {
-        "789": "yellow",
-        "1234": "green",
-        "5678": "red"
-    };
+    app.controller('ColorController', function($scope){
+        $scope.colors = {
+            "789": "lyellow",
+            "1234": "lgreen",
+            "5678": "lred"
+        };
+
+        $scope.selectedColor;
+
+        $scope.coloritemselected = function(color){
+            $scope.selectedColor = color;
+            alert($scope.selectedColor);
+        }
+    })
+
 })();
+
+
