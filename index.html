@@ -1,43 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="enclosure">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Hausaufgabe</title>
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
-    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="bower_components/angularjs-slider/dist/rzslider.css"/>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angularjs-slider/dist/rzslider.min.js"></script>
+
+    <script src="js/main.js"></script>
 </head>
+
 <body>
-<div class="container">
+<div class="container" ng-app="enclosure">
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4 content">
             <h3>Enclosure</h3>
             <form>
                 <div class="form-group">
-                    <label for="width">Width:</label>
-                    <input type="text" id="width" readonly style="border:0; color:#222222;">
-                    <div id="slider-range"></div>
-                </div>
-                <div class="form-group">
-                    <label for="enclosure">Enclosure:</label>
-                    <select id="enclosure" class="form-control">
-                        <option value="null">- Please select</option>
-                        <option value="test1">Test1</option>
-                        <option value="test2">Test2</option>
-                        <option value="test3">Test3</option>
-                    </select>
+                    <div ng-controller="EnclosureController">
+                        <div>
+                            <label for="width">Width:</label>
+                            <rzslider id="width"
+                                      rz-slider-model="slider.min"
+                                      rz-slider-high="slider.max"
+                                      rz-slider-options="slider.options"></rzslider>
+                        </div>
+                        <div class="dropdown">
+                            <label for="enclosure">Enclosure</label><br>
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button" id="enclosure" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true">
+                                - Please select <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li ng-repeat="enclosure in enclosures | rangeFilter:this" value="{{enclosure.articlenumber}}">
+                                    <a ng-click="enclosureitemselected(enclosure)">{{enclosure.description}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <div ng-controller="ColorController">
                         <div class="dropdown">
+                            <label for="color">Color</label><br>
                             <button class="btn btn-default dropdown-toggle" type="button" id="color" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 - Please select <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <li ng-repeat="(key,value) in colors" value="{{key}}"><a ng-click="coloritemselected(key)">{{value}}</a></li>
                             </ul>
                         </div>
@@ -49,16 +70,6 @@
         <div class="col-md-4"></div>
     </div>
 </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Angular -->
-<script src="bower_components/angular/angular.min.js"></script>
-
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/main.js"></script>
 
 </body>
 </html>

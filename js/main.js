@@ -3,55 +3,78 @@
  */
 (function(){
 
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 2000,
-        values: [75, 300],
-        slide: function (event, ui) {
-            $("#width").val(ui.values[0] + " - " + ui.values[1]);
+    var app = angular.module('enclosure', ['rzModule']);
+
+    app.filter('rangeFilter', function(){
+        return function(items, scope){
+            var filtered = [];
+            for (var i = 0; i < items.length; i++){
+                var item = items[i];
+                if (scope.slider.min <= item.width && item.width <= scope.slider.max){
+                    filtered.push(item);
+                }
+            }
+            console.log(filtered.length);
+            return filtered;
+        };
+    });
+
+    app.sevice('GetJSONData', function(){
+        this.getJSONData = function(){
+            $http.get('eec-export.json')
+                .then(function(res){
+                    $scope.enclosures = res.data.enclosures;
+                });
         }
     });
 
-    $("#width").val($("#slider-range").slider("values", 0) +
-        " - " + $("#slider-range").slider("values", 1));
+    app.controller('EnclosureController',function($scope, $http){
 
-    var app = angular.module('enclosure', []);
-
-    app.controller('EnclosureController', ['$scope', function($scope){
-        $scope.selectedColor = "0000";
-
-        var colors = {
-            "789": "lyellow",
-            "1234": "lgreen",
-            "5678": "lred"
+        $scope.slider={
+            min: 300,
+            max: 600,
+            options: {
+                floor: 0,
+                ceil: 2000
+            }
         };
 
-        //TODO: Funktioniert so noch nicht.. erst lokales Objekt benutzen
-        $.getJSON('eec-export.json', function (data) {
-            colors = data.colors;
-            console.log(data.colors);
-            console.log(colors);
-        });
-        $scope.colorChange = function(){
-            console.log($scope.selectedColor);
-        };
-    }]);
+        $scope.enclosures = [
+            { description: "Enc 100",
+                width: 100},
+            { description: "Enc 200",
+                width: 200},
+            { description: "Enc 300",
+                width: 300}
+        ];
+/*
+        $http.get('eec-export.json')
+            .then(function(res){
+                $scope.enclosures = res.data.enclosures;
+            });
+*/
+        $scope.selectedEnclosure;
 
-    app.controller('ColorController', function($scope){
-        $scope.colors = {
-            "789": "lyellow",
-            "1234": "lgreen",
-            "5678": "lred"
-        };
+        $scope.enclosureitemselected = function(enclosure){
+            $scope.selectedEnclosure = enclosure;
+            console.log($scope.selectedEnclosure.description, $scope.selectedEnclosure);
+        }
+    });
+
+    app.controller('ColorController', function($scope, $http){
+
+        $http.get('eec-export.json')
+            .then(function(res){
+                $scope.colors = res.data.colors;
+            });
 
         $scope.selectedColor;
 
         $scope.coloritemselected = function(color){
             $scope.selectedColor = color;
-            alert($scope.selectedColor);
+            console.log($scope.selectedColor);
         }
-    })
+    });
 
 })();
 
